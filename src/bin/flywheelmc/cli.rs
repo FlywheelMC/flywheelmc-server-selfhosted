@@ -20,10 +20,6 @@ pub struct FlywheelMcCli {
     #[arg(default_value_t = ColourChoice::Auto)]
     pub colour : ColourChoice,
 
-    /// The directory in which to run the server
-    #[arg(short = 'd', long)]
-    pub run_dir : PathBuf,
-
     /// Addresses to bind the server to
     #[arg(short = 'b', long)]
     #[arg(default_value = "127.0.0.1:25565,0.0.0.0:25565")]
@@ -32,6 +28,9 @@ pub struct FlywheelMcCli {
     /// Server list message, supports XML text
     #[arg(long)]
     #[arg(default_value = "<grey>A <gold>FlywheelMC</> Server</grey>")]
-    pub motd : String
+    pub motd : String,
+
+    /// Source server WASM file.
+    pub source_wasm : PathBuf
 
 }

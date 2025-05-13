@@ -1,0 +1,27 @@
+[package]
+name        = "flyhweelmc-server-standalone"
+version     = "0.1.0"
+authors     = ["FlywheelMC <https://github.com/FlywheelMC>"]
+description = "FlywheelMC single-plot run-it-yourself server software"
+license     = "LGPL-3.0-only"
+
+readme     = "README.md"
+homepage   = "https://github.com/FlywheelMC"
+repository = "https://github.com/FlywheelMC/flywheelmc-server-standalone"
+publish    = false
+
+keywords   = [ "flywheel", "mc", "minecraft", "game" ]
+categories = [ "games" ]
+
+edition      = "2024"
+rust-version = "1.87"
+
+
+[lints.rust]
+unused_parens = "allow"
+
+
+[dependencies.flywheelmc-common]
+path = "../flywheelmc-common"
+[dependencies.flywheelmc-players]
+path = "../flywheelmc-players"

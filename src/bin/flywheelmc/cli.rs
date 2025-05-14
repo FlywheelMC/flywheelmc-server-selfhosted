@@ -12,7 +12,7 @@ pub struct FlywheelMcCli {
 
     /// Logging targets [example: `stderr:trace,flywheelmc_players::conn=debug`, `./logs/errors.txt:error`]
     #[arg(short = 'o', long)]
-    #[arg(default_value = "stderr:debug")]
+    #[arg(default_value = "stderr")]
     pub output : Vec<SingleLogTarget>,
 
     /// Output colour behaviour [aliases: color]
@@ -31,6 +31,11 @@ pub struct FlywheelMcCli {
     pub motd : String,
 
     /// Source server WASM file.
-    pub source_wasm : PathBuf
+    pub source_wasm : PathBuf,
+
+    // // TODO: CLI source wasm watch
+    // /// Restart the server if the WASM file changed.
+    // #[arg(long)]
+    // pub watch : bool
 
 }

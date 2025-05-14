@@ -27,7 +27,7 @@ pub struct FlywheelMcCli {
 
     /// Server list message, supports XML text
     #[arg(long)]
-    #[arg(default_value = "<grey>A <gold>FlywheelMC</> Server</grey>")]
+    #[arg(default_value = "<#7e7e7e>A <#41c389>FlywheelMC</> Server</>")]
     pub motd : String,
 
     /// Source server WASM file.

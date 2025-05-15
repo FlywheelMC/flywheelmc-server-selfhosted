@@ -79,9 +79,7 @@ fn start_game(
         r_wasm   : Res<WasmGlobals>,
         r_source : Res<SourceWasmFile>,
     mut ew_start : EventWriter<StartWasm>
-) {
-    ew_start.write(r_wasm.new_from_file(&r_source.0));
-}
+) { ew_start.write(r_wasm.new_from_file(&r_source.0)); }
 
 
 fn handle_game_events(
@@ -93,7 +91,7 @@ fn handle_game_events(
         pass!("Game server started");
     }
     for WasmErrorEvent { err, .. } in er_error.read() {
-        error!("Game server encountered an error: {}", err);
+        fatal!("Game server encountered an error: {}", err);
         ew_exit.write(AppExit::error());
     }
 }

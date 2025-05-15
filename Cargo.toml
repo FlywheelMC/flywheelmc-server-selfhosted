@@ -1,5 +1,5 @@
 [package]
-name        = "flyhweelmc-server-selfhosted"
+name        = "flywheelmc-server-selfhosted"
 version     = "0.1.0"
 authors     = ["FlywheelMC <https://github.com/FlywheelMC>"]
 description = "Single-plot self-hosted FlywheelMC server software"
@@ -25,3 +25,10 @@ unused_parens = "allow"
 path = "../flywheelmc-common"
 [dependencies.flywheelmc-players]
 path = "../flywheelmc-players"
+[dependencies.flywheelmc-wasm]
+path = "../flywheelmc-wasm"
+
+[dependencies.image]
+version = "0.25"
+[dependencies.base64]
+version = "0.22"

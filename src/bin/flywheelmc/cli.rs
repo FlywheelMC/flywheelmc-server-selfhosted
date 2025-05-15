@@ -30,6 +30,10 @@ pub struct FlywheelMcCli {
     #[arg(default_value = "<#7e7e7e>A <#d36d4f>FlywheelMC</> Server</>")]
     pub motd : String,
 
+    /// Server list favicon, file path or b64
+    #[arg(long)]
+    pub favicon : Option<String>, // TODO: Load favicon from file if file path.
+
     /// Source server WASM file.
     pub source_wasm : PathBuf,
 

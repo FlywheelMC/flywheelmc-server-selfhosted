@@ -29,7 +29,7 @@ async fn main() -> AppExit {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(FlywheelMcPlayersPlugin {
-            max_conns          : None,
+            max_conns          : cli.max_conns,
             listen_addrs       : cli.bind,
             motd               : Text::from_xml(cli.motd, false, true),
             version            : Cow::Owned(format!("FlywheelMC (Selfhosted) {MINECRAFT_VERSION}")),
@@ -39,8 +39,8 @@ async fn main() -> AppExit {
             server_id          : Cow::Borrowed("FLYWHEELSELFHOSTED"),
             server_brand       : Cow::Borrowed("FlywheelMC (Selfhosted)"),
             kick_footer        : Text::from(vec![
-                TextComponent::of_literal("F L Y W H E E L ").colour(TextColour::RGB(64, 196, 138)).bold(true),
-                TextComponent::of_literal("M C").colour(TextColour::RGB(212, 112, 80)).bold(true)
+                TextComponent::of_literal("ꜰʟʏᴡʜᴇᴇʟ").colour(TextColour::RGB(64, 196, 138)),
+                TextComponent::of_literal("ᴍᴄ").colour(TextColour::RGB(212, 112, 80))
             ]),
             default_dim_id     : Identifier::new_const("flywheelmc", "main"),
             default_dim_type   : DimType {

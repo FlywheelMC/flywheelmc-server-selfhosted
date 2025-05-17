@@ -25,6 +25,10 @@ pub struct FlywheelMcCli {
     #[arg(default_value = "127.0.0.1:25565,0.0.0.0:25565")]
     pub bind : SocketAddrs,
 
+    /// Maximum number of connections. No maximum if omitted
+    #[arg(long)]
+    pub max_conns : Option<usize>,
+
     /// Server list message, supports XML text
     #[arg(long)]
     #[arg(default_value = "<#7e7e7e>A <#d36d4f>FlywheelMC</> Server</>")]

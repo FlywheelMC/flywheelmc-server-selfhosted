@@ -9,9 +9,9 @@ pub fn define_all(import_funcs : &mut ImportFuncs) {
     import_funcs.define("flywheel_system_set_motd", flywheel_system_set_motd );
     import_funcs.define("flywheel_trace",    flywheel_trace    );
     import_funcs.define("flywheel_debug",    flywheel_debug    );
-    import_funcs.define("flywheel_info ",    flywheel_info     );
-    import_funcs.define("flywheel_pass ",    flywheel_pass     );
-    import_funcs.define("flywheel_warn ",    flywheel_warn     );
+    import_funcs.define("flywheel_info",     flywheel_info     );
+    import_funcs.define("flywheel_pass",     flywheel_pass     );
+    import_funcs.define("flywheel_warn",     flywheel_warn     );
     import_funcs.define("flywheel_error",    flywheel_error    );
     import_funcs.define("flywheel_fatal",    flywheel_fatal    );
 }

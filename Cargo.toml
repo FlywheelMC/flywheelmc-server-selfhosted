@@ -14,7 +14,7 @@ keywords   = [ "flywheel", "mc", "minecraft", "game" ]
 categories = [ "games" ]
 
 edition      = "2024"
-rust-version = "1.87"
+rust-version = "1.89"
 
 
 [lints.rust]
@@ -26,7 +26,8 @@ path = "../flywheelmc-common"
 [dependencies.flywheelmc-players]
 path = "../flywheelmc-players"
 [dependencies.flywheelmc-wasm]
-path = "../flywheelmc-wasm"
+path     = "../flywheelmc-wasm"
+features = [ "unstable" ]
 
 [dependencies.image]
 version = "0.25"

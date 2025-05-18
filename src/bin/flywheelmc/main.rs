@@ -3,6 +3,7 @@ use flywheelmc_players::{ FlywheelMcPlayersPlugin, RejectNewConns, MINECRAFT_VER
 use flywheelmc_players::player::{ PlayerJoined, Player, KickPlayer };
 use flywheelmc_wasm::{ FlywheelMcWasmPlugin, WasmGlobals };
 use flywheelmc_wasm::runner::{ StartWasm, WasmStartedEvent, WasmErrorEvent, WasmRunnerInstance };
+use flywheelmc_wasm::runner::player::PlayerBindWasm;
 use protocol::value::{
     Text, TextComponent, TextColour,
     Identifier,
@@ -109,16 +110,19 @@ fn handle_game_events(
 static NOT_READY_TEXT : LazyLock<Text> = LazyLock::new(|| Text::from_xml("<#d36d4f>Server is still starting.</>", true, true));
 
 fn join_players(
-    mut q_runner  : Query<(&mut WasmRunnerInstance,)>,
+    mut q_runner  : Query<(Entity,), (With<WasmRunnerInstance>,)>,
         q_players : Query<(&Player,)>,
     mut er_join   : EventReader<PlayerJoined>,
+    mut ew_bind   : EventWriter<PlayerBindWasm>,
     mut ew_kick   : EventWriter<KickPlayer>
 ) {
     if (! er_join.is_empty()) {
-        if let Ok(runner) = q_runner.single_mut() {
-            for PlayerJoined { entity, .. } in er_join.read() {
-                if let Ok((player,)) = q_players.get(*entity) {
-                }
+        if let Ok((runner_entity,)) = q_runner.single_mut() {
+            for PlayerJoined { entity : player_entity, .. } in er_join.read() {
+                ew_bind.write(PlayerBindWasm {
+                    player : *player_entity,
+                    runner : runner_entity
+                });
             }
         } else {
             let message = &*NOT_READY_TEXT;

@@ -35,7 +35,7 @@ async fn flywheel_trace(
     msg_len : u32
 ) -> WasmResult<()> {
     let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
-    trace!("{}", msg);
+    trace!("[WASM] {}", msg);
     Ok(())
 }
 
@@ -45,7 +45,7 @@ async fn flywheel_debug(
     msg_len : u32
 ) -> WasmResult<()> {
     let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
-    debug!("{}", msg);
+    debug!("[WASM] {}", msg);
     Ok(())
 }
 
@@ -55,7 +55,7 @@ async fn flywheel_info(
     msg_len : u32
 ) -> WasmResult<()> {
     let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
-    info!("{}", msg);
+    info!("[WASM] {}", msg);
     Ok(())
 }
 
@@ -65,7 +65,7 @@ async fn flywheel_pass(
     msg_len : u32
 ) -> WasmResult<()> {
     let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
-    pass!("{}", msg);
+    pass!("[WASM] {}", msg);
     Ok(())
 }
 
@@ -75,7 +75,7 @@ async fn flywheel_warn(
     msg_len : u32
 ) -> WasmResult<()> {
     let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
-    warn!("{}", msg);
+    warn!("[WASM] {}", msg);
     Ok(())
 }
 
@@ -85,7 +85,7 @@ async fn flywheel_error(
     msg_len : u32
 ) -> WasmResult<()> {
     let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
-    error!("{}", msg);
+    error!("[WASM] {}", msg);
     Ok(())
 }
 
@@ -95,6 +95,6 @@ async fn flywheel_fatal(
     msg_len : u32
 ) -> WasmResult<()> {
     let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
-    fatal!("{}", msg);
+    fatal!("[WASM] {}", msg);
     Ok(())
 }

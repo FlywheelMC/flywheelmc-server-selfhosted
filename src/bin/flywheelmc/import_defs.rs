@@ -34,7 +34,7 @@ async fn flywheel_trace(
     in_msg  : WasmAnyPtr,
     msg_len : u32
 ) -> WasmResult<()> {
-    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "□");
+    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
     trace!("{}", msg);
     Ok(())
 }
@@ -44,7 +44,7 @@ async fn flywheel_debug(
     in_msg  : WasmAnyPtr,
     msg_len : u32
 ) -> WasmResult<()> {
-    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "□");
+    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
     debug!("{}", msg);
     Ok(())
 }
@@ -54,7 +54,7 @@ async fn flywheel_info(
     in_msg  : WasmAnyPtr,
     msg_len : u32
 ) -> WasmResult<()> {
-    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "□");
+    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
     info!("{}", msg);
     Ok(())
 }
@@ -64,7 +64,7 @@ async fn flywheel_pass(
     in_msg  : WasmAnyPtr,
     msg_len : u32
 ) -> WasmResult<()> {
-    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "□");
+    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
     pass!("{}", msg);
     Ok(())
 }
@@ -74,7 +74,7 @@ async fn flywheel_warn(
     in_msg  : WasmAnyPtr,
     msg_len : u32
 ) -> WasmResult<()> {
-    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "□");
+    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
     warn!("{}", msg);
     Ok(())
 }
@@ -84,7 +84,7 @@ async fn flywheel_error(
     in_msg  : WasmAnyPtr,
     msg_len : u32
 ) -> WasmResult<()> {
-    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "□");
+    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
     error!("{}", msg);
     Ok(())
 }
@@ -94,7 +94,7 @@ async fn flywheel_fatal(
     in_msg  : WasmAnyPtr,
     msg_len : u32
 ) -> WasmResult<()> {
-    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "□");
+    let msg = ctx.mem_read_str(in_msg, msg_len)?.replace("\x1b", "▫");
     fatal!("{}", msg);
     Ok(())
 }

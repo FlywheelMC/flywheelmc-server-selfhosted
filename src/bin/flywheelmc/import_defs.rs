@@ -1,7 +1,8 @@
 use flywheelmc_common::prelude::*;
 use flywheelmc_players::ServerMotd;
-use flywheelmc_wasm::{ ImportFuncs, WasmCallCtx };
-use flywheelmc_wasm::{ WasmAnyPtr, WasmResult };
+use flywheelmc_wasm::sig::ImportFuncs;
+use flywheelmc_wasm::types::{ WasmAnyPtr, WasmResult };
+use flywheelmc_wasm::runner::WasmCallCtx;
 use protocol::value::Text;
 
 

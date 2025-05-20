@@ -16,8 +16,7 @@ mod cli;
 mod import_defs;
 
 
-#[tokio::main]
-async fn main() -> AppExit {
+fn main() -> AppExit {
     let mut cli = cli::FlywheelMcCli::parse_check_colour();
     GLOBAL_FILTER.set(cli.log);
     LOG_TARGETS.extend(mem::take(&mut cli.output).into_iter().map(|t| t.0));

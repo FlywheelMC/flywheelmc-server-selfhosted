@@ -1,4 +1,4 @@
-EXAMPLE_NAME=sine_world
+EXAMPLE_NAME=big_clock
 
 reset
 cargo build &&

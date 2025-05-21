@@ -63,7 +63,7 @@ fn main() -> AppExit {
                 monster_spawn_light_level       : DimMonsterSpawnLightLevel::Constant(0),
                 monster_spawn_block_light_limit : 0
             },
-            max_view_distance  : NonZeroU8::new(8).unwrap()
+            max_view_distance  : NonZeroU8::new(32).unwrap()
         })
         .add_plugins({
             let mut wp = FlywheelMcWasmPlugin::default();

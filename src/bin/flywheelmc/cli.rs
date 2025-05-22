@@ -38,6 +38,10 @@ pub struct FlywheelMcCli {
     #[arg(long)]
     pub favicon : Option<String>, // TODO: Load favicon from file if file path.
 
+    /// Disables Mojang account authentication. **NOT RECOMMENDED**
+    #[arg(long)]
+    pub noauth : bool,
+
     /// Source server WASM file.
     pub source_wasm : PathBuf,
 

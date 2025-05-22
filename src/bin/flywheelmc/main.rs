@@ -1,3 +1,9 @@
+#![feature(
+    // Standard Library
+    ip
+)]
+
+
 use flywheelmc_common::prelude::*;
 use flywheelmc_players::{ FlywheelMcPlayersPlugin, RejectNewConns, MINECRAFT_VERSION };
 use flywheelmc_players::player::{ PlayerJoined, Player, KickPlayer };
@@ -26,6 +32,22 @@ fn main() -> AppExit {
         Cow::Owned
     );
 
+    if (cli.noauth) {
+        warn!("==============================================================================");
+        warn!("                            RUNNING IN NOAUTH MODE");
+        warn!("");
+        warn!("The server will not attempt to authenticate players");
+        warn!("Anyone can join with any username, potentially stealing each other's save-data");
+        warn!("Do not run a publically available server with noauth");
+        warn!("==============================================================================");
+        if (cli.bind.iter().any(|addr| addr.ip().is_global())) {
+            error!("Globally routable bind addresses are forbidden in noauth mode");
+            return AppExit::error();
+        }
+        warn!("Server will start in 3 seconds...");
+        std::thread::sleep(Duration::from_secs(3));
+    }
+
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(FlywheelMcPlayersPlugin {
@@ -35,7 +57,7 @@ fn main() -> AppExit {
             version            : Cow::Owned(format!("FlywheelMC (Selfhosted) {MINECRAFT_VERSION}")),
             favicon,
             compress_threshold : 64,
-            mojauth_enabled    : true,
+            mojauth_enabled    : ! cli.noauth,
             server_id          : Cow::Borrowed("FLYWHEELSELFHOSTED"),
             server_brand       : Cow::Borrowed("FlywheelMC (Selfhosted)"),
             kick_footer        : Text::from(vec![

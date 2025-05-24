@@ -1,6 +1,6 @@
 # Use this example from flywheel-sys
-EXAMPLE_LANG=zig
-EXAMPLE_NAME=sine_world
+EXAMPLE_LANG=rust
+EXAMPLE_NAME=big_clock
 
 # Clear Terminal
 clear

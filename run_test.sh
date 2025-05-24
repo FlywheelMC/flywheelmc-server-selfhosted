@@ -1,4 +1,5 @@
-# Use this example from flywheel-sys-rs
+# Use this example from flywheel-sys
+EXAMPLE_LANG=zig
 EXAMPLE_NAME=sine_world
 
 # Clear Terminal
@@ -8,7 +9,17 @@ clear
 cargo build || exit 1
 
 # Build the selected example script
-(cd ../flywheel-sys-rust/examples/${EXAMPLE_NAME}; ./build.sh) || exit 1
+(cd ../flywheel-sys-${EXAMPLE_LANG}/examples/${EXAMPLE_NAME}; ./build.sh) || exit 1
+
+# Figure out where the outputted file is
+case $EXAMPLE_LANG in
+    "rust")
+        BUILD_PATH=target/wasm32-unknown-unknown/release/
+        ;;
+    "zig")
+        BUILD_PATH=zig-out/bin/
+        ;;
+esac
 
 # Start the server
 ./target/debug/flywheelmc \
@@ -17,4 +28,4 @@ cargo build || exit 1
        flywheelmc_players::conn=debug,\
        flywheelmc_players::world=debug,\
        flywheelmc_wasm::runner::event=debug" \
-  ../flywheel-sys-rust/examples/${EXAMPLE_NAME}/target/wasm32-unknown-unknown/release/${EXAMPLE_NAME}.wasm
+  ../flywheel-sys-${EXAMPLE_LANG}/examples/${EXAMPLE_NAME}/${BUILD_PATH}${EXAMPLE_NAME}.wasm

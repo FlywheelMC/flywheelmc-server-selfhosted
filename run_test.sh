@@ -1,6 +1,6 @@
 # Use this example from flywheel-sys
 EXAMPLE_LANG=zig
-EXAMPLE_NAME=hello_world
+EXAMPLE_NAME=sine_world
 
 # Clear Terminal
 clear

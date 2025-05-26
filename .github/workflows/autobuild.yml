@@ -1,0 +1,225 @@
+name: Auto Build
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+
+env:
+    CARGO_TERM_COLOR: always
+
+jobs:
+    release-x86_64-linux-gnu:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+
+            - name: Install Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: nightly
+                  default: true
+                  override: true
+                  target: x86_64-unknown-linux-gnu
+                  profile: minimal
+
+            - name: Clone FlywheelMC Common
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-common.git
+
+            - name: Clone FlywheelMC Logging
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-logging.git
+
+            - name: Clone Voxidian Protocol
+              working-directory: ../
+              run: git clone https://github.com/Voxidian/voxidian-protocol.git
+
+            - name: Clone FlywheelMC Players
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-players.git
+
+            - name: Clone FlywheelMC WASM
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-wasm.git
+
+            - name: Cache
+              uses: Swatinem/rust-cache@v2
+
+            - name: Build
+              run: |
+                  cargo build --bin=flywheelmc --release --target x86_64-unknown-linux-gnu
+                  strip target/x86_64-unknown-linux-gnu/release/flywheelmc
+                  mv target/x86_64-unknown-linux-gnu/release/flywheelmc target/x86_64-unknown-linux-gnu/release/flywheelmc-x86_64-linux-gnu
+
+            - name: Release
+              uses: softprops/action-gh-release@v1
+              if: startsWith(github.ref, 'refs/tags/')
+              with:
+                  files: flywheelmc-x86_64-linux-gnu
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    release-x86_64-windows-msvc:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+
+            - name: Install Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: nightly
+                  default: true
+                  override: true
+                  target: x86_64-pc-windows-msvc
+                  profile: minimal
+
+            - run: echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Append
+            - name: Install OpenSSL
+              run: vcpkg install openssl:x64-windows-static-md
+
+            - name: Clone FlywheelMC Common
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-common.git
+
+            - name: Clone FlywheelMC Logging
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-logging.git
+
+            - name: Clone Voxidian Protocol
+              working-directory: ../
+              run: git clone https://github.com/Voxidian/voxidian-protocol.git
+
+            - name: Clone FlywheelMC Players
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-players.git
+
+            - name: Clone FlywheelMC WASM
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-wasm.git
+
+            - name: Cache
+              uses: Swatinem/rust-cache@v2
+
+            - name: Build
+              run: |
+                  cargo build --bin=flywheelmc --release --target x86_64-pc-windows-msvc
+                  mv target/x86_64-pc-windows-msvc/release/flywheelmc.exe target/x86_64-pc-windows-msvc/release/flywheelmc-x86_64-windows-msvc.exe
+
+            - name: Release
+              uses: softprops/action-gh-release@v1
+              if: startsWith(github.ref, 'refs/tags/')
+              with:
+                  files: flywheelmc-x86_64-windows-msvc.exe
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # release-x86_64-apple-darwin:
+    #     runs-on: macOS-latest
+
+    #     steps:
+    #         - name: Checkout
+    #           uses: actions/checkout@v1
+
+    #         - name: Install Rust
+    #           uses: actions-rs/toolchain@v1
+    #           with:
+    #               toolchain: nightly
+    #               default: true
+    #               override: true
+    #               target: x86_64-apple-darwin
+    #               profile: minimal
+
+    #         - name: Clone FlywheelMC Common
+    #           working-directory: ../
+    #           run: git clone https://github.com/FlywheelMC/flywheelmc-common.git
+
+    #         - name: Clone FlywheelMC Logging
+    #           working-directory: ../
+    #           run: git clone https://github.com/FlywheelMC/flywheelmc-logging.git
+
+    #         - name: Clone Voxidian Protocol
+    #           working-directory: ../
+    #           run: git clone https://github.com/Voxidian/voxidian-protocol.git
+
+    #         - name: Clone FlywheelMC Players
+    #           working-directory: ../
+    #           run: git clone https://github.com/FlywheelMC/flywheelmc-players.git
+
+    #         - name: Clone FlywheelMC WASM
+    #           working-directory: ../
+    #           run: git clone https://github.com/FlywheelMC/flywheelmc-wasm.git
+
+    #         - name: Cache
+    #           uses: Swatinem/rust-cache@v2
+
+    #         - name: Build
+    #           run: |
+    #               cargo build --bin=flywheelmc --release --target x86_64-apple-darwin
+    #               strip target/x86_64-apple-darwin/release/flywheelmc
+    #               mv target/x86_64-apple-darwin/release/flywheelmc target/x86_64-apple-darwin/release/flywheelmc-x86_64-apple-darwin
+
+    #         - name: Release
+    #           uses: softprops/action-gh-release@v1
+    #           if: startsWith(github.ref, 'refs/tags/')
+    #           with:
+    #               files: flywheelmc-x86_64-apple-darwin
+    #           env:
+    #               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    release-aarch-apple-darwin:
+        runs-on: macOS-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+
+            - name: Install Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: nightly
+                  default: true
+                  override: true
+                  target: aarch64-apple-darwin
+                  profile: minimal
+
+            - name: Clone FlywheelMC Common
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-common.git
+
+            - name: Clone FlywheelMC Logging
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-logging.git
+
+            - name: Clone Voxidian Protocol
+              working-directory: ../
+              run: git clone https://github.com/Voxidian/voxidian-protocol.git
+
+            - name: Clone FlywheelMC Players
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-players.git
+
+            - name: Clone FlywheelMC WASM
+              working-directory: ../
+              run: git clone https://github.com/FlywheelMC/flywheelmc-wasm.git
+
+            - name: Cache
+              uses: Swatinem/rust-cache@v2
+
+            - name: Build
+              run: |
+                  cargo build --bin=flywheelmc --release --target aarch64-apple-darwin
+                  strip target/aarch64-apple-darwin/release/flywheelmc
+                  mv target/aarch64-apple-darwin/release/flywheelmc target/aarch64-apple-darwin/release/flywheelmc-aarch-apple-darwin
+
+            - name: Release
+              uses: softprops/action-gh-release@v1
+              if: startsWith(github.ref, 'refs/tags/')
+              with:
+                  files: flywheelmc-aarch-apple-darwin
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

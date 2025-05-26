@@ -1,15 +1,31 @@
 name: Auto Build
 on:
     push:
-        branches: ["main"]
+        tags: ["*"]
     pull_request:
-        branches: ["main"]
+        tags: ["*"]
 
 env:
     CARGO_TERM_COLOR: always
 
+permissions:
+    contents: write
+
 jobs:
+    create-release:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+
+            - name: Create Release
+              run: gh release create ${{ github.ref_name }} --generate-notes
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     release-x86_64-linux-gnu:
+        needs: create-release
         runs-on: ubuntu-latest
 
         steps:
@@ -54,13 +70,13 @@ jobs:
                   strip target/x86_64-unknown-linux-gnu/release/flywheelmc
                   mv target/x86_64-unknown-linux-gnu/release/flywheelmc target/x86_64-unknown-linux-gnu/release/flywheelmc-x86_64-linux-gnu
 
-            - name: Release
-              uses: softprops/action-gh-release@v2
-              if: github.ref_type == 'tag'
-              with:
-                  files: flywheelmc-x86_64-linux-gnu
+            - name: Upload Binary
+              run: gh release upload ${{ github.ref_name }} target/x86_64-unknown-linux-gnu/release/flywheelmc-x86_64-linux-gnu
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     release-x86_64-windows-msvc:
+        needs: create-release
         runs-on: windows-latest
 
         steps:
@@ -108,13 +124,13 @@ jobs:
                   cargo build --bin=flywheelmc --release --target x86_64-pc-windows-msvc
                   mv target/x86_64-pc-windows-msvc/release/flywheelmc.exe target/x86_64-pc-windows-msvc/release/flywheelmc-x86_64-windows-msvc.exe
 
-            - name: Release
-              uses: softprops/action-gh-release@v2
-              if: github.ref_type == 'tag'
-              with:
-                  files: flywheelmc-x86_64-windows-msvc.exe
+            - name: Upload Binary
+              run: gh release upload ${{ github.ref_name }} target/x86_64-pc-windows-msvc/release/flywheelmc-x86_64-windows-msvc.exe
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # release-x86_64-apple-darwin:
+    #     needs: create-release
     #     runs-on: macOS-latest
 
     #     steps:
@@ -159,13 +175,13 @@ jobs:
     #               strip target/x86_64-apple-darwin/release/flywheelmc
     #               mv target/x86_64-apple-darwin/release/flywheelmc target/x86_64-apple-darwin/release/flywheelmc-x86_64-apple-darwin
 
-    #         - name: Release
-    #           uses: softprops/action-gh-release@v2
-    #           if: github.ref_type == 'tag'
-    #           with:
-    #               files: flywheelmc-x86_64-apple-darwin
+    #         - name: Upload Binary
+    #           run: gh release upload ${{ github.ref_name }} target/x86_64-apple-darwin/release/flywheelmc-x86_64-apple-darwin
+    #           env:
+    #               GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     release-aarch-apple-darwin:
+        needs: create-release
         runs-on: macOS-latest
 
         steps:
@@ -210,8 +226,7 @@ jobs:
                   strip target/aarch64-apple-darwin/release/flywheelmc
                   mv target/aarch64-apple-darwin/release/flywheelmc target/aarch64-apple-darwin/release/flywheelmc-aarch-apple-darwin
 
-            - name: Release
-              uses: softprops/action-gh-release@v2
-              if: github.ref_type == 'tag'
-              with:
-                  files: flywheelmc-aarch-apple-darwin
+            - name: Upload Binary
+              run: gh release upload ${{ github.ref_name }} target/aarch64-apple-darwin/release/flywheelmc-aarch-apple-darwin
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

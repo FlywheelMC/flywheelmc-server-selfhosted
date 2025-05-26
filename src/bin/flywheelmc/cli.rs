@@ -2,7 +2,25 @@ use flywheelmc_common::prelude::*;
 
 
 #[derive(Debug, Parser)]
-#[command(version, about, long_about = None)]
+#[command(
+    name       = "FlywheelMC Selfhosted Server",
+    version,
+    author,
+    about,
+    long_about = None,
+    help_template = concat!(
+        "{before-help}",
+        "\x1b[1m\x1b[4mFlywheelMC Selfhosted Server\x1b[0m",
+        " (\x1b[1m\x1b[4m", env!("CARGO_PKG_VERSION"), "\x1b[0m)\n",
+        "{tab}Licensed under ", env!("CARGO_PKG_LICENSE"), "\n",
+        "{tab}", env!("CARGO_PKG_HOMEPAGE"), "\n\n",
+        "{usage-heading} {usage}\n\n",
+        "{all-args}",
+        "{after-help}"
+    ),
+    arg_required_else_help = true,
+    disable_version_flag   = true
+)]
 pub struct FlywheelMcCli {
 
     /// Default global logging levels [example: `info,flywheelmc_players::conn=debug`]

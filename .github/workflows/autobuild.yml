@@ -55,12 +55,10 @@ jobs:
                   mv target/x86_64-unknown-linux-gnu/release/flywheelmc target/x86_64-unknown-linux-gnu/release/flywheelmc-x86_64-linux-gnu
 
             - name: Release
-              uses: softprops/action-gh-release@v1
-              if: startsWith(github.ref, 'refs/tags/')
+              uses: softprops/action-gh-release@v2
+              if: github.ref_type == 'tag'
               with:
                   files: flywheelmc-x86_64-linux-gnu
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     release-x86_64-windows-msvc:
         runs-on: windows-latest
@@ -111,12 +109,10 @@ jobs:
                   mv target/x86_64-pc-windows-msvc/release/flywheelmc.exe target/x86_64-pc-windows-msvc/release/flywheelmc-x86_64-windows-msvc.exe
 
             - name: Release
-              uses: softprops/action-gh-release@v1
-              if: startsWith(github.ref, 'refs/tags/')
+              uses: softprops/action-gh-release@v2
+              if: github.ref_type == 'tag'
               with:
                   files: flywheelmc-x86_64-windows-msvc.exe
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # release-x86_64-apple-darwin:
     #     runs-on: macOS-latest
@@ -164,12 +160,10 @@ jobs:
     #               mv target/x86_64-apple-darwin/release/flywheelmc target/x86_64-apple-darwin/release/flywheelmc-x86_64-apple-darwin
 
     #         - name: Release
-    #           uses: softprops/action-gh-release@v1
-    #           if: startsWith(github.ref, 'refs/tags/')
+    #           uses: softprops/action-gh-release@v2
+    #           if: github.ref_type == 'tag'
     #           with:
     #               files: flywheelmc-x86_64-apple-darwin
-    #           env:
-    #               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     release-aarch-apple-darwin:
         runs-on: macOS-latest
@@ -217,9 +211,7 @@ jobs:
                   mv target/aarch64-apple-darwin/release/flywheelmc target/aarch64-apple-darwin/release/flywheelmc-aarch-apple-darwin
 
             - name: Release
-              uses: softprops/action-gh-release@v1
-              if: startsWith(github.ref, 'refs/tags/')
+              uses: softprops/action-gh-release@v2
+              if: github.ref_type == 'tag'
               with:
                   files: flywheelmc-aarch-apple-darwin
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,6 @@
 [package]
 name        = "flywheelmc-server-selfhosted"
-version     = "0.1.0"
+version     = "0.1.1-alpha.1"
 authors     = ["FlywheelMC <https://github.com/FlywheelMC>"]
 description = "Single-plot self-hosted FlywheelMC server software"
 license     = "LGPL-3.0-only"
